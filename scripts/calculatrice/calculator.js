@@ -314,6 +314,7 @@ function setup_calculator() {
             calculate(false);
             history_add(calcul, result);
         }
+        calcul = "";
     }
 
     window.onkeyup = function (e) {
