@@ -26,6 +26,25 @@ var current_token = ""
 var current_token_type = ""
 var opened_parenthesis = ""
 
+function history_add(stored_calcul, stored_result) {
+    let history_item = document.createElement("p");
+    history_item.innerText = stored_calcul + " = " + stored_result;
+    history_item.classList.add("history-item");
+    history_item.dataset.calculus = calcul + current_token + opened_parenthesis;
+    history.appendChild(history_item);
+    history_item.addEventListener("click", (e) => {
+        calcul = history_item.dataset.calculus;
+        current_token = "";
+        current_token_type = "";
+        opened_parenthesis = "";
+        calcul_display_base.innerText = calcul;
+        calcul_display_current.innerText = current_token;
+        calcul_display_autocomplete.innerText = opened_parenthesis;
+        calculate(false);
+        calcul_output.innerText = result;
+    })
+}
+
 function calculate(save_to_history = false) {
     let x = parseFloat(variable_x.value);
     let a = parseFloat(variable_a.value);
@@ -36,22 +55,10 @@ function calculate(save_to_history = false) {
         result = Parser.evaluate(calcul + current_token + opened_parenthesis, { pi: Math.PI, e: Math.E, x: x, a: a, b: b });
         console.log("result = ", result);
         if (save_to_history) {
-            let history_item = document.createElement("p");
-            history_item.innerText = calcul + current_token + opened_parenthesis + " = " + result;
-            history_item.classList.add("history-item");
-            history_item.dataset.calculus = calcul + current_token + opened_parenthesis;
-            history.appendChild(history_item);
-            history_item.addEventListener("click", (e) => {
-                calcul = history_item.dataset.calculus;
-                current_token = "";
-                current_token_type = "";
-                opened_parenthesis = "";
-                calcul_display_base.innerText = calcul;
-                calcul_display_current.innerText = current_token;
-                calcul_display_autocomplete.innerText = opened_parenthesis;
-                calculate(false);
-                calcul_output.innerText = result;
-            })
+            history_add(calcul + current_token + opened_parenthesis, result);
+            console.log("window.localStorage.getItem(\"history-length\") :", window.localStorage.getItem("history-length"))
+            window.localStorage.setItem("history-" + window.localStorage.getItem("history-length"), calcul + current_token + opened_parenthesis);
+            window.localStorage.setItem("history-length", parseInt(window.localStorage.getItem("history-length")) + 1);
         }
         return true
     } catch ({ name, message }) {
@@ -297,6 +304,17 @@ function setup_calculator() {
             calcul_output.innerText = result;
         }
     })
+
+    if (window.localStorage.getItem("history-length") === null) {
+        window.localStorage.setItem("history-length", "0");
+    } else {
+        for (let index = 0; index < window.localStorage.getItem("history-length"); index++) {
+            const element = window.localStorage.getItem("history-" + index.toString());
+            calcul = element;
+            calculate(false);
+            history_add(calcul, result);
+        }
+    }
 
     window.onkeyup = function (e) {
         console.log(e.target.tagName)
