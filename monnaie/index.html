@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertisseur de Monnaie</title>
+    <link rel="stylesheet" href="https://supertolek.github.io/winui3-stylesheet/styles/index.css">
+    <link rel="stylesheet" href="/styles/convertisseurs.css">
+</head>
+<body>
+    <section class="container">
+        <h1>Convertisseur de Monnaie</h1>
+
+        <div id="form">
+            <label for="amount">Montant :</label>
+            <input type="number" id="amount" placeholder="Entrez le montant">
+
+            <label for="fromCurrency">De :</label>
+            <select id="fromCurrency">
+                <option value="USD">USD - Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - Livre Sterling</option>
+            </select>
+
+            <label for="toCurrency">À :</label>
+            <select id="toCurrency">
+                <option value="EUR">EUR - Euro</option>
+                <option value="USD">USD - Dollar</option>
+                <option value="GBP">GBP - Livre Sterling</option>
+            </select>
+
+            <button onclick="convert()">Convertir</button>
+            <p id="result"></p>
+        </div>
+    </section>
+
+    <script src="/scripts/monnaie/index.js"></script>
+</body>
+</html>

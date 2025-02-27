@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://supertolek.github.io/winui3-stylesheet/styles/index.css">
+    <link rel="stylesheet" type="text/css"href="/styles/calculatrice.css" />
+    <title>Calculatrice</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+
+<body>
+    <div class="vertical-center">
+        <div class="horizontal-center">
+            <section id="graph-container">
+                <canvas id="my-graph" style="width:100%;max-width:700px"></canvas>
+                <label>Cliquez sur le graphique pour afficher la courbe.</label><br /><br />
+                <label>min = </label><input type="number" id="min-value" value="0"><br /><br />
+                <label>max = </label><input type="number" id="max-value" value="10"><br /><br />
+                <label>step = </label><input type="number" id="step-value" value="1">
+            </section>
+            <section id="calculator-container">
+                <p id="calcul-display"><!--
+                    --><span id="calcul-display-base"></span><!--
+                    --><span id="calcul-display-current"></span><!--
+                    --><span id="calcul-display-autocomplete"></span><!--
+                    --><br /><!--
+                    -->= <span id="calcul-output"></span> 
+                </p>
+                <table id="calculator-table">
+                    <tr>
+                        <td><button class="calculator-button" id="rad">rad</button></td>
+                        <td><button class="calculator-button" id="deg">deg</button></td>
+                        <td><button class="calculator-button" id="p-open">(</button></td>
+                        <td><button class="calculator-button" id="p-close">)</button></td>
+                        <td><button class="calculator-button" id="Backspace">←</button></td>
+                        <td><button class="calculator-button calculator-clear" id="clear">C</button></td>
+                        <td><button class="calculator-button calculator-operation" id="+">+</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="calculator-button calculator-operation" id="sin">sin</button></td>
+                        <td><button class="calculator-button calculator-operation" id="cos">cos</button></td>
+                        <td><button class="calculator-button calculator-operation" id="tan">tan</button></td>
+                        <td><button class="calculator-button secondary" id="1">1</button></td>
+                        <td><button class="calculator-button secondary" id="2">2</button></td>
+                        <td><button class="calculator-button secondary" id="3">3</button></td>
+                        <td><button class="calculator-button calculator-operation" id="-">-</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="calculator-button calculator-operation" id="^2">x<sup>2</sup></button></td>
+                        <td><button class="calculator-button calculator-operation" id="^3">x<sup>3</sup></button></td>
+                        <td><button class="calculator-button calculator-operation" id="^">x<sup>y</sup></button></td>
+                        <td><button class="calculator-button secondary" id="4">4</button></td>
+                        <td><button class="calculator-button secondary" id="5">5</button></td>
+                        <td><button class="calculator-button secondary" id="6">6</button></td>
+                        <td><button class="calculator-button calculator-operation" id="*">×</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="calculator-button calculator-operation" id="!">!</button></td>
+                        <td><button class="calculator-button calculator-operation" id="log10">log</button></td>
+                        <td><button class="calculator-button calculator-operation" id="ln">ln</button></td>
+                        <td><button class="calculator-button secondary" id="7">7</button></td>
+                        <td><button class="calculator-button secondary" id="8">8</button></td>
+                        <td><button class="calculator-button secondary" id="9">9</button></td>
+                        <td><button class="calculator-button calculator-operation" id="/">÷</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="calculator-button secondary" id="pi">π</button></td>
+                        <td><button class="calculator-button secondary" id="e">e</button></td>
+                        <td><button class="calculator-button secondary" id="x">x</button></td>
+                        <td><button class="calculator-button secondary" id=".">.</button></td>
+                        <td><button class="calculator-button secondary" id="0">0</button></td>
+                        <td colspan="2"><button class="calculator-button calculator-equal" id="eq">=</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><label>x = </label><input class="value-selector" id="x-value"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><label>a = </label><input class="value-selector" id="a-value"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><label>b = </label><input class="value-selector" id="b-value"></td>
+                    </tr>
+                </table>
+            </section>
+            <section id="history">
+                <h2 id="history-title">History:</h2>
+            </section>
+        </div>
+    </div>
+</body>
+<script type="module" src="/scripts/calculatrice/calculator.js"></script>
+<script type="module" src="/scripts/calculatrice/grapher.js"></script>
+
+</html>

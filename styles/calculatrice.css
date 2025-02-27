@@ -1,0 +1,58 @@
+body {
+    /* Position */
+    margin: 0px;
+    padding: 0px;
+    width: 100vw;
+    height: 100vh;
+}
+
+
+/* Calculator positionning */
+.vertical-center {
+    /* Position */
+    width: 100%;
+    height: 100%;
+    /* Flexbox */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.horizontal-center {
+    /* Position */
+    width: 100%;
+    /* Flexbox */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+/* History */
+#graph-container {
+    margin-right: 24px;
+}
+
+#history {
+    margin-left: 24px;
+    width: 200px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+/* Output things */
+#calcul-display-current {
+    font-weight: 600;
+    color: var(--brand-foreground-link-rest);
+}
+#calcul-display-autocomplete {
+    color: var(--neutral-foreground-disabled-rest);
+}
+
+/* Button things */
+.calculator-button {
+    width: 100%;
+}
+.calculator-clear {
+    background-color: var(--status-danger-stroke-2-rest);
+}
