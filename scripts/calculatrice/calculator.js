@@ -1,5 +1,7 @@
+// Thomas
 import { Parser } from "../../modules/expr-eval-master/index.js";
 
+// Définir des constantes pour différents types d'entrées
 const NUMBERS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
 const FUNCTIONS = ["sin", "asin", "cos", "acos", "tan", "atan", "log10", "ln", "fact"];
 const CONSTANTS = ["pi", "e", "x", "a", "b", "i"];
@@ -8,6 +10,7 @@ const UNARY_OPERATORS = ["!", "^2", "^3"]
 const PARENTHESIS = ["(", ")"]
 const NEW_VALUE = NUMBERS + FUNCTIONS + CONSTANTS;
 
+// Obtenir des références aux éléments du DOM
 const calcul_display = document.getElementById("calcul-display");
 const calcul_display_base = document.getElementById("calcul-display-base");
 const calcul_display_current = document.getElementById("calcul-display-current");
@@ -18,14 +21,17 @@ const variable_a = document.getElementById("a-value");
 const variable_b = document.getElementById("b-value");
 const history = document.getElementById("history");
 
+// Initialiser le parser
 const parser = new Parser();
 
+// Initialiser les variables
 var result = ""
 var calcul = "";
 var current_token = ""
 var current_token_type = ""
 var opened_parenthesis = ""
 
+// Fonction pour ajouter un calcul à l'historique
 function history_add(stored_calcul, stored_result) {
     let history_item = document.createElement("p");
     history_item.innerText = stored_calcul + " = " + stored_result;
@@ -45,6 +51,7 @@ function history_add(stored_calcul, stored_result) {
     })
 }
 
+// Fonction pour calculer le résultat de l'expression actuelle
 function calculate(save_to_history = false) {
     let x = parseFloat(variable_x.value);
     let a = parseFloat(variable_a.value);
@@ -68,9 +75,10 @@ function calculate(save_to_history = false) {
     }
 }
 
+// Fonction pour gérer les pressions sur les boutons de la calculatrice
 function handle_button_press(char_id) {
-    /* This function is called when a button of the calculator is clicked.
-    It checks if the action is possible and adds it to the calcul. */
+    /* Cette fonction est appelée lorsqu'un bouton de la calculatrice est cliqué.
+    Elle vérifie si l'action est possible et l'ajoute au calcul. */
     if (char_id == "eq") {
         return calculate(true);
     }
@@ -82,7 +90,7 @@ function handle_button_press(char_id) {
         return true;
     }
     if (char_id == "Backspace") {
-        console.log("Backspace pressed")
+        console.log("Backspace pressé")
         if (current_token) {
             console.log("ct")
             current_token = current_token.substring(0, current_token.length - 1);
@@ -97,32 +105,33 @@ function handle_button_press(char_id) {
         return true;
     }
 
+    // Gérer différents types d'entrées en fonction du type de jeton actuel
     if (current_token_type == "num") {
-        // The last token is a number, consider inputs with this
+        // Le dernier jeton est un nombre, considérer les entrées avec ceci
         if (NUMBERS.includes(char_id)) {
-            // Still writing in a number
+            // Toujours en train d'écrire un nombre
             current_token += char_id;
             console.log("0 -> 0");
         } else if (CONSTANTS.includes(char_id)) {
-            // It is a constant
+            // C'est une constante
             calcul += current_token + "*";
             current_token = char_id;
             current_token_type = "const";
         } else if (OPERATORS.includes(char_id)) {
-            // Making calcul with the last number
+            // Faire un calcul avec le dernier nombre
             calcul += current_token;
             current_token = char_id;
             current_token_type = "op";
         } else if (FUNCTIONS.includes(char_id)) {
-            // Using a function, puts the input number inside of the function
+            // Utiliser une fonction, mettre le nombre d'entrée à l'intérieur de la fonction
             calcul += char_id + "(";
             opened_parenthesis += ")";
         } else if (char_id == "p-open") {
-            // Parenthesis handling, open and close
+            // Gestion des parenthèses, ouvrir et fermer
             calcul += "(";
             opened_parenthesis += ")";
         } else if (char_id == "p-close") {
-            // Parenthesis handling, open and close
+            // Gestion des parenthèses, ouvrir et fermer
             calcul += current_token + ")";
             current_token = ""
             current_token_type = "p-close"
@@ -131,39 +140,39 @@ function handle_button_press(char_id) {
             current_token += char_id;
             current_token_type = "const";
         } else {
-            // Alert that the input has failed
+            // Alerter que l'entrée a échoué
             return false;
         }
-        // Return success
+        // Retourner le succès
         return true;
     }
     if (current_token_type == "const") {
-        // The last token is a number, consider inputs with this
+        // Le dernier jeton est une constante, considérer les entrées avec ceci
         if (NUMBERS.includes(char_id)) {
-            // Still writing in a number
+            // Toujours en train d'écrire un nombre
             calcul += current_token + "*";
             current_token = char_id;
             current_token_type = "num";
         } else if (CONSTANTS.includes(char_id)) {
-            // It is a constant
+            // C'est une constante
             calcul += current_token + "*";
             current_token = char_id;
             current_token_type = "const";
         } else if (OPERATORS.includes(char_id)) {
-            // Making calcul with the last number
+            // Faire un calcul avec la dernière constante
             calcul += current_token;
             current_token = char_id;
             current_token_type = "op";
         } else if (FUNCTIONS.includes(char_id)) {
-            // Using a function, puts the input number inside of the function
+            // Utiliser une fonction, mettre la constante d'entrée à l'intérieur de la fonction
             calcul += char_id + "(";
             opened_parenthesis += ")";
         } else if (char_id == "p-open") {
-            // Parenthesis handling, open and close
+            // Gestion des parenthèses, ouvrir et fermer
             calcul += "(";
             opened_parenthesis += ")";
         } else if (char_id == "p-close") {
-            // Parenthesis handling, open and close
+            // Gestion des parenthèses, ouvrir et fermer
             calcul += current_token + ")";
             current_token = ""
             current_token_type = "p-close"
@@ -172,26 +181,26 @@ function handle_button_press(char_id) {
             current_token += char_id;
             current_token_type = "const";
         } else {
-            // Alert that the input has failed
+            // Alerter que l'entrée a échoué
             return false;
         }
-        // Return success
+        // Retourner le succès
         return true;
     }
     if (current_token_type == "op") {
-        // The last token is an operator
+        // Le dernier jeton est un opérateur
         if (NUMBERS.includes(char_id)) {
-            // The new token is a number. Do so
+            // Le nouveau jeton est un nombre. Faire ainsi
             calcul += current_token;
             current_token = char_id;
             current_token_type = "num";
         } else if (CONSTANTS.includes(char_id)) {
-            // It is a constant
+            // C'est une constante
             calcul += current_token;
             current_token = char_id;
             current_token_type = "const";
         } else if (FUNCTIONS.includes(char_id)) {
-            // The new token is a function
+            // Le nouveau jeton est une fonction
             calcul += current_token;
             calcul += char_id + "(";
             opened_parenthesis += ")";
@@ -202,7 +211,7 @@ function handle_button_press(char_id) {
             current_token_type = "p-open";
             opened_parenthesis += ")";
         } else if (char_id == "p-open") {
-            // A parenthesis is added.
+            // Une parenthèse est ajoutée.
             calcul += current_token + "(";
             current_token == "";
             current_token_type = "p-open";
@@ -213,27 +222,27 @@ function handle_button_press(char_id) {
         return true;
     }
     if (current_token_type == "p-open" || current_token_type == "") {
-        // The last token is a parenthesis
+        // Le dernier jeton est une parenthèse
         if (NUMBERS.includes(char_id)) {
-            // The new token is a number. Do so
+            // Le nouveau jeton est un nombre. Faire ainsi
             current_token = char_id;
             current_token_type = "num";
             console.log("... ( -> 0");
         } else if (CONSTANTS.includes(char_id)) {
-            // It is a constant
+            // C'est une constante
             current_token = char_id;
             current_token_type = "const";
         } else if (FUNCTIONS.includes(char_id)) {
-            // The new token is a function
+            // Le nouveau jeton est une fonction
             calcul += char_id + "(";
             opened_parenthesis += ")";
             current_token_type = "p-open";
         } else if (char_id == "p-open") {
-            // Parenthesis handling, open and close
+            // Gestion des parenthèses, ouvrir et fermer
             calcul += "(";
             opened_parenthesis += ")";
         } else if (char_id == "p-close") {
-            // Parenthesis handling, open and close
+            // Gestion des parenthèses, ouvrir et fermer
             calcul += current_token + ")";
             current_token = "";
             current_token_type = "p-close";
@@ -248,7 +257,7 @@ function handle_button_press(char_id) {
     }
     if (current_token_type == "p-close") {
         if (NUMBERS.includes(char_id)) {
-            // A number!
+            // Un nombre!
             calcul += "*";
             current_token = char_id;
             current_token_type = "num";
@@ -266,10 +275,11 @@ function handle_button_press(char_id) {
     }
 }
 
+// Fonction pour configurer la calculatrice
 function setup_calculator() {
     var calculator_buttons = document.getElementsByClassName("calculator-button");
     console.log(calculator_buttons);
-    // Add an eventListener for each button.
+    // Ajouter un eventListener pour chaque bouton.
     for (let button_index = 0; button_index < calculator_buttons.length; button_index++) {
         const button = calculator_buttons[button_index];
 
@@ -286,6 +296,7 @@ function setup_calculator() {
         });
     }
 
+    // Ajouter des écouteurs d'événements pour les entrées de variables
     variable_x.addEventListener("input", (e) => {
         console.log("____________________")
         if (calculate(false)) {
@@ -305,6 +316,7 @@ function setup_calculator() {
         }
     })
 
+    // Charger l'historique à partir du stockage local
     if (window.localStorage.getItem("history-length") === null) {
         window.localStorage.setItem("history-length", "0");
     } else {
@@ -317,6 +329,7 @@ function setup_calculator() {
         calcul = "";
     }
 
+    // Ajouter un écouteur d'événements pour l'entrée du clavier
     window.onkeyup = function (e) {
         console.log(e.target.tagName)
         if (e.target.tagName != "INPUT") {
@@ -345,6 +358,8 @@ function setup_calculator() {
     }
 }
 
+// Initialiser la calculatrice
 setup_calculator();
 
+// Exporter les fonctions pour une utilisation externe
 export { setup_calculator, handle_button_press, calculate, calcul, result };

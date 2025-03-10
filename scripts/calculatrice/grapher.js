@@ -1,11 +1,14 @@
+// Thomas
 import { calculate, result } from "./calculator.js";
 
+// Récupération des éléments du DOM
 const my_graph = document.getElementById("my-graph");
 const variable_x = document.getElementById("x-value");
 const min_truc = document.getElementById("min-value");
 const max_truc = document.getElementById("max-value");
 const step_truc = document.getElementById("step-value");
 
+// Initialisation du graphique
 const my_chart = new Chart("my-graph", {
     type: "line",
     data: {
@@ -16,14 +19,16 @@ const my_chart = new Chart("my-graph", {
     }
 });
 
+// Fonction pour tracer le graphique
 function plot_graph(x_values, y_values) {
     my_chart.data.labels = x_values;
     my_chart.data.datasets[0].data = y_values;
     my_chart.update();
 }
 
+// Ajout d'un écouteur d'événement pour le clic sur le graphique
 my_graph.addEventListener("click", (e) => {
-    // Get domain
+    // Récupération du domaine
     let min_value = min_truc.value;
     let max_value = max_truc.value;
     let step_value = parseFloat(step_truc.value);
@@ -32,7 +37,7 @@ my_graph.addEventListener("click", (e) => {
     console.log("min_value = ", min_value);
     console.log("max_value = ", max_value);
     console.log("step_value = ", step_value);
-    // Get values
+    // Récupération des valeurs
     let x_values = [];
     let y_values = [];
     for (let index = min_value; index <= max_value; index += step_value) {
@@ -41,7 +46,7 @@ my_graph.addEventListener("click", (e) => {
         x_values.push(index.toPrecision(3));
         y_values.push(result);
     }
-    // Plot it
+    // Tracer le graphique
     console.log("y_values = ", y_values);
     plot_graph(x_values, y_values);
 })

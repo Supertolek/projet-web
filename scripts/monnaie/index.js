@@ -1,3 +1,4 @@
+// David
 function convert() {
     const amount = document.getElementById("amount").value;
     const fromCurrency = document.getElementById("fromCurrency").value;
